@@ -30,8 +30,10 @@ if [[ ${GENTOO_PYTHON_TARGETS} != '' ]]; then
     emerge ${GENTOO_EMERGE_DEFAULT_OPTS} --complete-graph=y --update --newuse --deep @world
     # rebuild packages that might need it
     emerge ${GENTOO_EMERGE_DEFAULT_OPTS} --usepkg=n @preserved-rebuild
-    # remove unneeded packages
-    emerge --verbose=n --depclean
+    if [[ "${GENTOO_PORTAGE_CLEANUP}" != "False" ]]; then
+        # remove unneeded packages
+        emerge --verbose=n --depclean
+    fi
     # rebuild packages that might have somehow depended on the unneeded packages
     emerge ${GENTOO_EMERGE_DEFAULT_OPTS} --usepkg=n @preserved-rebuild
 
